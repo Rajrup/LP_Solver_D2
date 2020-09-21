@@ -1,0 +1,13 @@
+/*Some css fixes to use night theme with IPython slides*/
+body {
+  background-image: url("bkg2.png");
+  background-size: 100%;
+  background-color: #cccccc;
+}
+.reveal h1 { color: #000099; }
+.reveal h2 { color: #000099; }
+.reveal h3 { color: #000099; }
+.reveal h4 { color: #000099; }
+.bold { font-weight: bold; }
+.red { color: #FF0000; }
+.blue { color: #0000FF; }
