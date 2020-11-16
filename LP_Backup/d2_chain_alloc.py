@@ -1,14 +1,6 @@
 import gurobipy as gp
 from gurobipy import GRB
 
-'''
-batch size	parallel level	expected latency	duration
-1	1	0.05	0.025
-2	1	0.08	0.04
-4	1	0.15	0.075
-4	2	0.2	0.1333333333
-8	4	0.5	0.4
-'''
 def lp_scheduler(M, DAG, M_SRC, M_SNK, G, P, C, S, R, L_SLO):
 
     print("M_SRC Source Nodes:")
@@ -25,25 +17,25 @@ def lp_scheduler(M, DAG, M_SRC, M_SNK, G, P, C, S, R, L_SLO):
     P_l = {(m, g, k): P[m, g][k][2] for m, g, k in P_conf}
     P_d = {(m, g, k): P[m, g][k][3] for m, g, k in P_conf}
 
-    print("P_conf PROFILE CONF:")
-    print(P_conf)
-    print("P_b BATCH:")
-    print(P_b)
-    print("P_p PARALLEL:")
-    print(P_p)
-    print("P_l Expected LATENCY:")
-    print(P_l)
-    print("P_d DURATION:")
-    print(P_d)
+    # print("P_conf PROFILE CONF:")
+    # print(P_conf)
+    # print("P_b BATCH:")
+    # print(P_b)
+    # print("P_p PARALLEL:")
+    # print(P_p)
+    # print("P_l Expected LATENCY:")
+    # print(P_l)
+    # print("P_d DURATION:")
+    # print(P_d)
 
     C = {g: 1.0 for g in G}
 
-    print("COST:")
-    print(C)
+    # print("COST:")
+    # print(C)
 
     R_upper = {(m, g, k): R[m] for m, g, k in P_conf}
-    print("R_upper Input Rate ub:")
-    print(R_upper)
+    # print("R_upper Input Rate ub:")
+    # print(R_upper)
 
     # Constants
     capacity = 1.0
@@ -59,16 +51,16 @@ def lp_scheduler(M, DAG, M_SRC, M_SNK, G, P, C, S, R, L_SLO):
     l_max = model.addVar(vtype=GRB.CONTINUOUS, ub=L_SLO, name='L_max')
     model.update()
 
-    print("VARIABLE: X")
-    print(x)
-    print("VARIABLE: R")
-    print(r)
-    print("VARIABLE: U")
-    print(u)
-    print("VARIABLE: ST")
-    print(st)
-    print("VARIABLE: L_max")
-    print(l_max)
+    # print("VARIABLE: X")
+    # print(x)
+    # print("VARIABLE: R")
+    # print(r)
+    # print("VARIABLE: U")
+    # print(u)
+    # print("VARIABLE: ST")
+    # print(st)
+    # print("VARIABLE: L_max")
+    # print(l_max)
 
     # Objective Function
     obj = gp.quicksum(

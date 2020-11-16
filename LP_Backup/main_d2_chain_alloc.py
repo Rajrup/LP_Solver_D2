@@ -91,7 +91,7 @@ def DAG2():
     M_SRC = ['A']
     M_SNK = ['B', 'D']
 
-    num_gpus = 20
+    num_gpus = 10000
     G  = ["1080Ti_{}".format(gpu_id) for gpu_id in range(num_gpus)]
 
    
@@ -131,5 +131,5 @@ def DAG2():
     return dict(M=M, DAG=DAG, M_SRC=M_SRC, M_SNK=M_SNK, G=G, P=P, C=C, S=S, R=R, L_SLO=L_SLO)
 
 if __name__ == "__main__":
-    input = DAG2()
+    input = DAG1()
     lp_scheduler(**input)
