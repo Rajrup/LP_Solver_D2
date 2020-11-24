@@ -1,33 +1,27 @@
 from d2_alloc_lp import *
 
 def DAG1():
-    '''
-    batch size	parallel level	expected latency	duration
-    1	1	0.05	0.025
-    2	1	0.08	0.04
-    4	1	0.15	0.075
-    4	2	0.2	0.1333333333
-    8	4	0.5	0.4
-    '''
-
     # Input Parameters
-    M = ['A', 'B']
-    DAG = {
-        ('A', 'B') : 1
+    M = ['A', 'B']      # Modules
+    
+    DAG = {             
+        ('A', 'B') : 1  # Edge from module A to B
     }
 
-    M_SRC = ['A']
-    M_SNK = ['B']
+    M_SRC = ['A']       # Source module (Currently it's a computational module)
+    M_SNK = ['B']       # Sink module (Currently it's a computational module)
 
-    print("M_SRC Source Nodes:")
-    print(M_SRC)
-    print("M_SNK Sink Nodes:")
-    print(M_SNK)
+    G = ['1080Ti']      # GPU type list
 
-    G = ['1080Ti']
-
-    print("GPU Type:")
-    print(G)
+    '''
+    Profile configuration P = 
+    batch size	parallel level	expected latency	duration        throughput
+    1	        1	            0.05                0.025           40
+    2	        1	            0.08                0.040           50
+    4	        1	            0.15                0.075           53
+    4	        2	            0.2	                0.1333333333    60
+    8	        4	            0.5	                0.4             80
+    '''
 
     P = {
         ('A', '1080Ti'): 
@@ -45,24 +39,15 @@ def DAG1():
         [8, 4, 0.5, 0.4, 80]]  
     }
 
-    print("PROFILE Info:")
-    print(P)
+    C = {g: 1.0 for g in G}     # Cost per GPU type
 
-    C = {g: 1.0 for g in G}
-
-    print("COST:")
-    print(C)
-
-    S = {
-        ('A', 'B'): 2.0
-    }
-
-    R = {
+    R = {                       # Input rate for each module
         'A': 60,
         'B': 120
     }
 
-    L_SLO = 0.5
+    L_SLO = 0.50                # SLO latency
+
     return dict(M=M, DAG=DAG, M_SRC=M_SRC, M_SNK=M_SNK, G=G, P=P, C=C, R=R, L_SLO=L_SLO)
 
 def DAG2():
@@ -80,9 +65,8 @@ def DAG2():
     M_SRC = ['A']
     M_SNK = ['B', 'D']
 
-    G = ["GPU_{}".format(i) for i in range(10)]
-    # G  = ["1080Ti"]
-    print("Num GPU: ", len(G))
+    num_gpu = 10
+    G = ["GPU_{}".format(i) for i in range(num_gpu)]
 
     P = {}
     for m in M:
@@ -101,12 +85,6 @@ def DAG2():
                              [8.0, 4.0,  0.333,  4.0/15.0,  120]]
 
     C = {g: 1.0 for g in G}
-
-    S = {
-        ('A', 'B') : 3.0,
-        ('A', 'C') : 2.0,
-        ('C', 'D') : 1.0
-    }
 
     R = {
         'A': 120,

@@ -120,4 +120,4 @@ def DAG2():
 
 if __name__ == "__main__":
     input = DAG2()
-    lp_scheduler2(**input)
+    lp_scheduler3(**input)
