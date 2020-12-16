@@ -263,8 +263,16 @@ def lp_scheduler(M, DAG, M_SRC, M_SNK, G, P, C, R, L_SLO):
 
     model.addConstrs(
         (aux[l, g, k] == ((1 - u_flag[l, g, k]) * P_l[l, g, k]) + (u_flag[l, g, k] * (P_d[l, g, k] + P_b[l, g, k] * temp_inv[l, g, k]))
-        for l, g, k in P_conf),  
-        name='Constr5_6_Aux')
+        for l, g, k in P_conf
+        if P_b[l, g, k] > 1),  
+        name='Constr5_6_Aux1')
+
+    # When batch size = 1
+    model.addConstrs(
+        (aux[l, g, k] == P_l[l, g, k]
+        for l, g, k in P_conf
+        if P_b[l, g, k] == 1),  
+        name='Constr5_6_Aux2')
 
     model.addConstrs(
         (st[m] >= st[l] + (x[l, g, k] * aux[l, g, k])
